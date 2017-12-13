@@ -12,9 +12,9 @@ module Migrate
     end
 
     def migrate_playlist(playlist)
-      preexisting_casebook = Content::Casebook.find_by_playlist_id(playlist.id)
+      preexisting_casebook = Content::Casebook.where(playlist_id: playlist.id).where(created_at: playlist.created_at)
 
-      if preexisting_casebook
+      if preexisting_casebook.present?
         puts "Playlist #{playlist.id} is a duplicate of Casebook #{preexisting_casebook.id}"
       else
         puts "Migrating playlist #{playlist.id}"
