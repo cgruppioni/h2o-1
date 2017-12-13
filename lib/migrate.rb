@@ -94,14 +94,6 @@ module Migrate
     def migrate_annotations(collage, resource)
       return unless resource.resource.class.in? [Case, TextBlock]
 
-      document = Nokogiri::HTML(resource.resource.content) {|config| config.noblanks}
-      idx = 0
-      document.traverse do |node|
-        next if node.text?
-        node['idx'] = idx
-        idx += 1
-      end
-
       nodes = Nokogiri::HTML(resource.resource.content) {|config| config.noblanks}
       idx = 0
       nodes.traverse do |node|
@@ -113,26 +105,28 @@ module Migrate
 
       collage.annotations.each do |annotation|
         content = nil
-        kind = if annotation.hidden
+
+        if annotation.hidden
           if annotation.annotation.present?
             content = annotation.annotation
-            'replace'
+            kind = 'replace'
           else
-            'elide'
+            kind = 'elide'
           end
         elsif annotation.link.present?
           content = annotation.link
-          'link'
+          kind = 'link'
         elsif annotation.annotation.present?
           content = annotation.annotation
-          'note'
+          kind = 'note'
         elsif annotation.highlight_only.present?
           content = annotation.highlight_only
-          'highlight'
+          kind = 'highlight'
         else
           # puts "Need help migrating annotation \##{annotation.id}: Collage \##{annotation.collage.id} #{annotation.xpath_start} -> #{annotation.xpath_end}"
-          'highlight'
+          kind 'highlight'
         end
+
         content_annotation = Content::Annotation.new resource: resource,
           kind: kind,
           content: "#{content} [\##{annotation.id}]"
