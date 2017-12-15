@@ -37,9 +37,7 @@ collages = Migrate::Collage.all
 
 Migrate.remigrate_annotations
 
-Migrate::Collage.where(id: 7164).each do |collage|
-  puts "**********************"
-  puts "Collage # #{collage.id}"
+collages.each do |collage|
   playlist_id = Migrate.get_collage_playlist_id(collage.id)
   if casebook = Content::Casebook.find_by_playlist_id(playlist_id)
     resource = casebook.resources.find_by_resource_id(collage.annotatable_id)
