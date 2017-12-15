@@ -222,18 +222,16 @@ module Migrate
         get_collages_from_playlist(playlist)
       end
 
-      puts @@collages_by_playlist.inspect
+      playlist_ids.each do |playlist_id|
+        binding.pry
+        casebook = Content::Casebook.find_by_playlist_id(playlist_id)
+        collages = @@collages_by_playlist[playlist_id]
 
-
-      # playlist_ids.each do |playlist_id|
-      #   casebook = Content::Casebook.find_by_playlist_id(playlist_id)
-      #   collages = @@collages_by_playlist[playlist_id]
-
-      #   collages.each do |collage|
-      #     resource = casebook.resources.find_by_resource_id(collage.annotatable_id)
-      #     Migrate.migrate_annotations(collage, resource)
-      #   end
-      # end
+        collages.each do |collage|
+          resource = casebook.resources.find_by_resource_id(collage.annotatable_id)
+          Migrate.migrate_annotations(collage, resource)
+        end
+      end
     end
 
     def get_collages_from_playlist(playlist)
