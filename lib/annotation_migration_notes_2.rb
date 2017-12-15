@@ -15,9 +15,33 @@ def get_collages_from_playlist(playlist)
   playlist.playlist_items.each do |item|
     if item.actual_object_type == 'playlist'
       playlist = Migrate::Playlist.find(item.actual_object_id)
-      get_collages_from_playlist(playlist)
+      self.get_collages_from_playlist(playlist)
     elsif item.actual_object_type == 'collage'
-      @collages << item
+      self.collages << item
+    end
+  end
+end
+
+playlist = Migrate::Playlist.find(711)
+Migrate.get_collages_from_playlist(playlist)
+Migrate.get_collages
+
+def get_collages_from_playlist(playlist)
+  item = playlist.playlist_items.first
+if item.actual_object_type == 'playlist'
+playlist = Migrate::Playlist.find(item.actual_object_id)
+    elsif item.actual_object_type == 'collage'
+      collages << item
+    end
+  end
+
+
+  playlist.playlist_items.each do |item|
+    if item.actual_object_type == 'playlist'
+      playlist = Migrate::Playlist.find(item.actual_object_id)
+      self.get_collages_from_playlist(playlist)
+    elsif item.actual_object_type == 'collage'
+      self.collages << item
     end
   end
 end
