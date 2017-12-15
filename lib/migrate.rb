@@ -208,5 +208,16 @@ module Migrate
       Migrate::Playlist.all.reject {|playlist| Migrate::PlaylistItem.where(actual_object_type: 'Playlist').find_by_actual_object_id playlist.id}
       .reject {|playlist| playlist.playlist_items.count == 0}
     end
+
+    def get_collage_playlist_id(collage_id)
+      item_id = collage_id
+
+      until Migrate::PlaylistItem.find_by_actual_object_id(item_id).blank?
+        playlist_item = Migrate::PlaylistItem.find_by_actual_object_id(item_id)
+        item_id = playlist_item.playlist_id
+      end
+
+      item_id
+    end
   end
 end
