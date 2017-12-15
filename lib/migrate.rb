@@ -96,7 +96,8 @@ module Migrate
     def migrate_annotations(collage, resource)
       return unless resource.resource.class.in? [Case, TextBlock]
 
-      nodes = Nokogiri::HTML(resource.resource.content) {|config| config.noblanks}
+      document = Nokogiri::HTML(resource.resource.content) {|config| config.noblanks}
+      nodes = Nokogiri::HTML(resource.resource.contGent) {|config| config.noblanks}
       idx = 0
       nodes.traverse do |node|
         next if node.text?
@@ -218,18 +219,25 @@ module Migrate
       playlists = Migrate::Playlist.find(playlist_ids)
 
       playlists.each do |playlist|
+        puts '1'
         @@original_playlist = playlist
         get_collages_from_playlist(playlist)
       end
 
       playlist_ids.each do |playlist_id|
-        binding.pry
+        puts '8'
+        puts "playlist_id: #{playlist_id}"
         casebook = Content::Casebook.find_by_playlist_id(playlist_id)
+        puts "casebook: #{casebook.inspect}"
         collages = @@collages_by_playlist[playlist_id]
+        puts "collages: #{collages.inspect}"
 
-        collages.each do |collage|
-          resource = casebook.resources.find_by_resource_id(collage.annotatable_id)
-          Migrate.migrate_annotations(collage, resource)
+        unless collages.nil?
+          collages.each do |collage|
+            puts '9'
+            resource = casebook.resources.find_by_resource_id(collage.annotatable_id)
+            Migrate.migrate_annotations(collage, resource)
+          end
         end
       end
     end
@@ -239,16 +247,22 @@ module Migrate
 
       playlist_items.each do |item|
         if item.actual_object_type == 'Playlist'
+          puts '2'
           if Migrate::Playlist.where(id: item.actual_object_id).any? ## broken links to playlists
+            puts '3'
             next_playlist = Migrate::Playlist.find(item.actual_object_id)
             get_collages_from_playlist(next_playlist)
           end 
         elsif item.actual_object_type == 'Collage'
+          puts '4'
           if Migrate::Collage.where(id: item.actual_object_id).any?
+            puts '5'
             collage = Migrate::Collage.find(item.actual_object_id)
             if @@collages_by_playlist[@@original_playlist.id].nil?
+              puts '6'
               @@collages_by_playlist[@@original_playlist.id] = [collage]
             else
+              puts '7'
               @@collages_by_playlist[@@original_playlist.id].push(collage)
             end
           end
