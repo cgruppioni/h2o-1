@@ -97,6 +97,13 @@ module Migrate
       return unless resource.resource.class.in? [Case, TextBlock]
 
       document = Nokogiri::HTML(resource.resource.content) {|config| config.noblanks}
+      idx = 0
+      document.traverse do |node|
+        next if node.text?
+        node['idx'] = idx
+        idx += 1
+      end
+
       nodes = Nokogiri::HTML(resource.resource.content) {|config| config.noblanks}
       idx = 0
       nodes.traverse do |node|
