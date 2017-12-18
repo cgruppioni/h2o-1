@@ -97,7 +97,7 @@ module Migrate
       return unless resource.resource.class.in? [Case, TextBlock]
 
       document = Nokogiri::HTML(resource.resource.content) {|config| config.noblanks}
-      nodes = Nokogiri::HTML(resource.resource.contGent) {|config| config.noblanks}
+      nodes = Nokogiri::HTML(resource.resource.content) {|config| config.noblanks}
       idx = 0
       nodes.traverse do |node|
         next if node.text?
@@ -127,7 +127,7 @@ module Migrate
           kind = 'highlight'
         else
           # puts "Need help migrating annotation \##{annotation.id}: Collage \##{annotation.collage.id} #{annotation.xpath_start} -> #{annotation.xpath_end}"
-          kind 'highlight'
+          kind = 'highlight'
         end
 
         content_annotation = Content::Annotation.new resource: resource,
@@ -252,7 +252,7 @@ module Migrate
             puts '3'
             next_playlist = Migrate::Playlist.find(item.actual_object_id)
             get_collages_from_playlist(next_playlist)
-          end 
+          end
         elsif item.actual_object_type == 'Collage'
           puts '4'
           if Migrate::Collage.where(id: item.actual_object_id).any?
