@@ -1,5 +1,7 @@
 module Migrate
   class << self
+
+
     def migrate_all_playlists
       puts 'Locating unmigrated playlists...'
       playlists = unmigrated_playlists
@@ -12,9 +14,9 @@ module Migrate
     end
 
     def migrate_playlist(playlist)
-      preexisting_casebook = Content::Casebook.find_by_playlist_id(playlist.id)
+      preexisting_casebook = Content::Casebook.where(playlist_id: playlist.id).where(created_at: playlist.created_at)
 
-      if preexisting_casebook
+      if preexisting_casebook.present?
         puts "Playlist #{playlist.id} is a duplicate of Casebook #{preexisting_casebook.id}"
       else
         puts "Migrating playlist #{playlist.id}"
@@ -113,26 +115,28 @@ module Migrate
 
       collage.annotations.each do |annotation|
         content = nil
-        kind = if annotation.hidden
+
+        if annotation.hidden
           if annotation.annotation.present?
             content = annotation.annotation
-            'replace'
+            kind = 'replace'
           else
-            'elide'
+            kind = 'elide'
           end
         elsif annotation.link.present?
           content = annotation.link
-          'link'
+          kind = 'link'
         elsif annotation.annotation.present?
           content = annotation.annotation
-          'note'
+          kind = 'note'
         elsif annotation.highlight_only.present?
           content = annotation.highlight_only
-          'highlight'
+          kind = 'highlight'
         else
           # puts "Need help migrating annotation \##{annotation.id}: Collage \##{annotation.collage.id} #{annotation.xpath_start} -> #{annotation.xpath_end}"
-          'highlight'
+          kind = 'highlight'
         end
+
         content_annotation = Content::Annotation.new resource: resource,
           kind: kind,
           content: "#{content} [\##{annotation.id}]"
@@ -214,5 +218,64 @@ module Migrate
       Migrate::Playlist.all.reject {|playlist| Migrate::PlaylistItem.where(actual_object_type: 'Playlist').find_by_actual_object_id playlist.id}
       .reject {|playlist| playlist.playlist_items.count == 0}
     end
+
+    def remigrate_annotations
+      @@collages = []
+      @@collages_by_playlist = {}
+      playlist_ids = [66, 603, 633, 711, 986, 1324, 1369, 1510, 1844, 1862, 1889, 1923, 1995, 3762, 5094, 5143, 5555, 5804, 5866, 5876, 7072, 7337, 7384, 7390, 7399, 7446, 8624, 8770, 9141, 9156, 9157, 9267, 9364, 9504, 9623, 10007, 10033, 10065, 10236, 10237, 10572, 10609, 11114, 11492, 11800, 12489, 12716, 12826, 12864, 12865, 12922, 13023, 13034, 13086, 14454, 17803, 19763, 20336, 20370, 20406, 20443, 20493, 20630, 20861, 21225, 21529, 21898, 21913, 22180, 22188, 22189, 22235, 22269, 22363, 22368, 22568, 24353, 24419, 24704, 24739, 25022, 25421, 25606, 25698, 25965, 26039, 26057, 26074, 26143, 26147, 26221, 26241, 26271, 26372, 26401, 26452, 26559, 27297, 27438, 27790, 27819, 27845, 28015, 28148, 28286, 50966, 51028, 51291, 51531, 51575, 51676, 51703, 51759, 51760, 51770, 51792, 51938, 51971, 52383, 52511, 52719]
+      playlists = Migrate::Playlist.find(playlist_ids)
+
+      playlists.each do |playlist|
+        puts '1'
+        @@original_playlist = playlist
+        get_collages_from_playlist(playlist)
+      end
+
+      playlist_ids.each do |playlist_id|
+        puts '8'
+        puts "playlist_id: #{playlist_id}"
+        casebook = Content::Casebook.find_by_playlist_id(playlist_id)
+        puts "casebook: #{casebook.inspect}"
+        collages = @@collages_by_playlist[playlist_id]
+        puts "collages: #{collages.inspect}"
+
+        unless collages.nil?
+          collages.each do |collage|
+            puts '9'
+            resource = casebook.resources.find_by_resource_id(collage.annotatable_id)
+            Migrate.migrate_annotations(collage, resource)
+          end
+        end
+      end
+    end
+
+    def get_collages_from_playlist(playlist)
+      playlist_items = playlist.playlist_items
+
+      playlist_items.each do |item|
+        if item.actual_object_type == 'Playlist'
+          puts '2'
+          if Migrate::Playlist.where(id: item.actual_object_id).any? ## broken links to playlists
+            puts '3'
+            next_playlist = Migrate::Playlist.find(item.actual_object_id)
+            get_collages_from_playlist(next_playlist)
+          end
+        elsif item.actual_object_type == 'Collage'
+          puts '4'
+          if Migrate::Collage.where(id: item.actual_object_id).any?
+            puts '5'
+            collage = Migrate::Collage.find(item.actual_object_id)
+            if @@collages_by_playlist[@@original_playlist.id].nil?
+              puts '6'
+              @@collages_by_playlist[@@original_playlist.id] = [collage]
+            else
+              puts '7'
+              @@collages_by_playlist[@@original_playlist.id].push(collage)
+            end
+          end
+        end
+      end
+    end
+
   end
 end

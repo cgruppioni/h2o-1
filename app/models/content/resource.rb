@@ -39,7 +39,7 @@ class Content::Resource < Content::Child
     preprocess_nodes html
   end
 
-  def preprocess_nodes html
+  def preprocess_nodes(html)
     # strip comments
     html.xpath('//comment()').remove
 
@@ -58,7 +58,7 @@ class Content::Resource < Content::Child
     html.xpath "//body/node()[not(self::text()) and not(self::text()[1])]"
   end
 
-  def annotated_paragraphs editable: false
+  def annotated_paragraphs(editable: false)
     nodes = paragraph_nodes
 
     nodes.each_with_index do |p_node, p_idx|
