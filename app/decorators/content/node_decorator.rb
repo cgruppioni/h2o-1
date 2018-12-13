@@ -89,7 +89,7 @@ class Content::NodeDecorator < Draper::Decorator
   end
 
   def resource_draft
-    if action_name == 'edit'
+    if action_name == "edit"
       preview_resource +
       save_resource +
       cancel_resource +
@@ -208,141 +208,160 @@ class Content::NodeDecorator < Draper::Decorator
   #Resources
 
   def create_draft
-    link_to(I18n.t('content.actions.revise'), create_draft_resource_path(casebook, resource), class: 'action edit one-line create-draft')
+    label = I18n.t("content.actions.revise") 
+    link_to(label, build_draft_resource_path(casebook, resource), class: "action edit one-line create-draft", role: "button", data: { disable_with: label })
   end
 
   def annotate_resource_draft
-    link_to(I18n.t('content.actions.revise-draft'), annotate_resource_path(draft, draft_resource), class: 'action edit one-line')
+    label = I18n.t("content.actions.revise-draft")
+    link_to(label, annotate_resource_path(draft, draft_resource), class: "action edit one-line", role: "button", data: { disable_with: label })
   end
 
   def annotate_resource
-    link_to(I18n.t('content.actions.revise-draft'), annotate_resource_path(casebook, resource), class: 'action edit one-line')
+    label = I18n.t("content.actions.revise-draft")
+    link_to(label, annotate_resource_path(casebook, resource), class: "action edit one-line", role: "button", data: { disable_with: label })
   end
 
   def clone_resource
-    link_to(I18n.t('content.actions.clone'), clone_resource_path(casebook, resource), class: 'action clone-casebook')
+    label = I18n.t("content.actions.clone")
+    link_to(label, clone_resource_path(casebook, resource), class: "action clone-casebook", role: "button", data: { disable_with: label })
   end
 
   def export_resource
     if resource.annotations.present?
-      link_to(I18n.t('content.actions.export'), '#', class: 'action one-line export export-has-annotations')
+      link_to(I18n.t("content.actions.export"), "#", role: "button", class: "action one-line export export-has-annotations")
     else
-      link_to(I18n.t('content.actions.export'), '#', class: 'action one-line export export-no-annotations')
+      link_to(I18n.t("content.actions.export"), "#", role: "button", class: "action one-line export export-no-annotations")
     end
   end
 
   def preview_resource
-    link_to(I18n.t('content.actions.preview'), resource_path(casebook, resource), class: 'action one-line preview')
+    link_to(I18n.t("content.actions.preview"), resource_path(casebook, resource), role: "button", class: "action one-line preview")
   end
 
   def save_resource
-    link_to(I18n.t('content.actions.save'), '', class: 'action one-line save submit-edit-details')
+    link_to(I18n.t('content.actions.save'), '', role: "button", class: 'action one-line save submit-edit-details')
   end
 
   def cancel_resource
-    link_to(I18n.t('content.actions.cancel'), '', class: 'action one-line cancel')
+    link_to(I18n.t('content.actions.cancel'), '', role: "button", class: 'action one-line cancel')
+  end
+
+  def cancel_resource
+    link_to(I18n.t("content.actions.cancel"), edit_resource_path(casebook, resource), role: "button", class: "action one-line cancel")
   end
 
   #############
   ## Section
 
   def create_section_draft
-    link_to(I18n.t('content.actions.revise'), edit_section_path(casebook, section), class: 'action edit one-line create-draft')
+    label = I18n.t("content.actions.revise")
+    link_to(label, edit_section_path(casebook, section), role: "button", class: "action edit one-line create-draft", data: { disable_with: label })
   end
 
   def revise_section
-    link_to(I18n.t('content.actions.revise-draft'), revise_section_path(casebook, section), class: 'action edit one-line')
+    label = I18n.t("content.actions.revise-draft")
+    link_to(label, revise_section_path(casebook, section), role: "button", class: "action edit one-line", data: { disable_with: label })
   end
 
   def clone_section
-    link_to(I18n.t('content.actions.clone'), clone_section_path(casebook, section), class: 'action clone-casebook')
+    label = I18n.t("content.actions.clone")
+    link_to(label, clone_section_path(casebook, section), role: "button", class: "action clone-casebook", data: { disable_with: label })
   end
 
   def revise_draft_section
+    label = I18n.t("content.actions.revise-draft")
     if draft_mode_of_published_casebook
-      link_to(I18n.t('content.actions.revise-draft'), layout_section_path(casebook, section), class: 'action edit one-line')
+      link_to(label, layout_section_path(casebook, section), role: "button", class: "action edit one-line", data: { disable_with: label })
     else
-      link_to(I18n.t('content.actions.revise-draft'), layout_section_path(draft, draft_section), class: 'action edit one-line')
+      link_to(label, layout_section_path(draft, draft_section), role: "button", class: "action edit one-line", data: { disable_with: label })
     end
   end
 
   def export_section
     if section.resources_have_annotations?
-      link_to(I18n.t('content.actions.export'), '#', class: 'action one-line export export-has-annotations')
+      link_to(I18n.t("content.actions.export"), "#", role: "button", class: "action one-line export export-has-annotations")
     else
-      link_to(I18n.t('content.actions.export'), '#', class: 'action one-line export export-no-annotations')
+      link_to(I18n.t("content.actions.export"), "#", role: "button", class: "action one-line export export-no-annotations")
     end
   end
 
   def preview_section
-    link_to(I18n.t('content.actions.preview'), section_path(casebook, section), class: 'action one-line preview')
+    link_to(I18n.t("content.actions.preview"), section_path(casebook, section), role: "button", class: "action one-line preview")
   end
 
   def save_section
-    link_to(I18n.t('content.actions.save'), '', class: 'action one-line save submit-section-details')
+    link_to(I18n.t("content.actions.save"), "", role: "button", class: "action one-line save submit-section-details")
   end
 
   def cancel_section
-    link_to(I18n.t('content.actions.cancel'), '', class: 'action one-line cancel')
+    link_to(I18n.t("content.actions.cancel"), "", role: "button", class: "action one-line cancel")
   end
 
   ############
   ## Casebook
 
   def publish_changes_to_casebook
-    button_tag(I18n.t('content.actions.publish-changes'), {name: nil, type:"button", class: 'action publish one-line'})
+    label = I18n.t("content.actions.publish-changes")
+    button_tag(label, {name: nil, type:"button", class: "action publish one-line", data: { disable_with: label }})
   end
 
   def publish_casebook
-    button_tag(I18n.t('content.actions.publish'), {name: nil, type:"button", class: 'action publish one-line'})
+    label = I18n.t("content.actions.publish")
+    button_tag(label, {name: nil, type:"button", class: "action publish one-line", data: { disable_with: label }})
   end
 
   def create_draft
-    link_to(I18n.t('content.actions.revise'), create_draft_casebook_path(casebook), method: :post, type: 'button', class: 'action edit one-line create-draft')
+    label = I18n.t("content.actions.revise")
+    link_to(label, create_draft_casebook_path(casebook), method: :post, role: "button", class: "action edit one-line create-draft", data: { disable_with: label })
   end
 
   def edit_casebook
-    link_to(I18n.t('content.actions.revise-draft'), edit_casebook_path(casebook), class: 'action edit one-line')
+    label = I18n.t("content.actions.revise-draft")
+    link_to(label, edit_casebook_path(casebook), role: "button", class: "action edit one-line", data: { disable_with: label })
   end
 
   def edit_draft
+    label = I18n.t("content.actions.revise-draft")
     if draft_mode_of_published_casebook
-      link_to(I18n.t('content.actions.revise-draft'), edit_casebook_path(casebook), class: 'action edit one-line')
+      link_to(label, edit_casebook_path(casebook), role: "button", class: "action edit one-line", data: { disable_with: label })
     else
-      link_to(I18n.t('content.actions.revise-draft'), edit_casebook_path(draft), class: 'action edit one-line')
+      link_to(label, edit_casebook_path(draft), role: "button", class: "action edit one-line", data: { disable_with: label })
     end
   end
 
   def clone_casebook
-    button_to(I18n.t('content.actions.clone'), clone_casebook_path(casebook), method: :post, class: 'action clone-casebook', form: {class: 'clone-casebook'})
+    label = I18n.t("content.actions.clone")
+    button_to(label, clone_casebook_path(casebook), method: :post, class: "action clone-casebook", form: {class: "clone-casebook"}, data: { disable_with: label })
   end
 
   def export_casebook
     if casebook.resources_have_annotations?
-      link_to(I18n.t('content.actions.export'), '#', class: 'action one-line export export-has-annotations')
+      link_to(I18n.t("content.actions.export"), "#", role: "button", class: "action one-line export export-has-annotations")
     else
-      link_to(I18n.t('content.actions.export'), '#', class: 'action one-line export export-no-annotations')
+      link_to(I18n.t("content.actions.export"), "#", role: "button", class: "action one-line export export-no-annotations")
     end
   end
 
   def preview_casebook
-    link_to(I18n.t('content.actions.preview'), casebook_path(casebook), class: 'action one-line preview')
+    link_to(I18n.t("content.actions.preview"), casebook_path(casebook), role: "button", class: "action one-line preview")
   end
 
   def add_resource
-    link_to(I18n.t('content.actions.add-resource'), new_section_path(casebook), class: 'action add-resource')
+    link_to(I18n.t("content.actions.add-resource"), new_section_path(casebook), role: "button", class: "action add-resource")
   end
 
   def add_section
-    button_to(I18n.t('content.actions.add-section'), sections_path(casebook, params: {parent: section.try(:id)}), method: :post, class: 'action add-section')
+    label = I18n.t("content.actions.add-section")
+    button_to(label, sections_path(casebook, params: {parent: section.try(:id)}), method: :post, class: "action add-section", data: { disable_with: label })
   end
 
   def save_casebook
-    link_to(I18n.t('content.actions.save'), '', class: 'action one-line save submit-casebook-details')
+    link_to(I18n.t("content.actions.save"), "", role: "button", class: "action one-line save submit-casebook-details")
   end
 
   def cancel_casebook
-    link_to(I18n.t('content.actions.cancel'), '', class: 'action one-line cancel cancel-casebook-details')
+    link_to(I18n.t("content.actions.cancel"), "", role: "button", class: "action one-line cancel cancel-casebook-details")
   end
 
   ######
@@ -396,7 +415,7 @@ class Content::NodeDecorator < Draper::Decorator
   end
 
   def preview_mode?
-    authorized? && action_name == 'show'
+    authorized? && action_name == "show"
   end
 
   def authorized?

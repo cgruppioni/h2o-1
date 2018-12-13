@@ -1,6 +1,6 @@
 import {html} from 'es6-string-html-template';
 import delegate from 'delegate';
-import Component from 'lib/ui/component';
+import ModalComponent from 'lib/ui/modal';
 
 delegate(document, '.create-draft', 'click', showReviseModal);
 
@@ -10,18 +10,9 @@ function showReviseModal (e) {
   modal = new ReviseModal;
 }
 
-class ReviseModal extends Component {
-  constructor () {
-    super({
-      id: 'revise-modal',
-      events: {}
-    });
-    document.body.appendChild(this.el);
-    this.render();
-  }
-
+class ReviseModal extends ModalComponent {
   template () {
-    return html`<div class="modal fade in" id="publish-modal" style="display: block">
+    return html`<div class="modal fade in" id="${this.id}" tabindex="-1" aria-labelledby="${this.id}-title" style="display: block">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="spinner-group">

@@ -8,12 +8,12 @@ class CasebookSystemTest < ApplicationSystemTestCase
       casebook = content_nodes(:public_casebook)
       section_1 = content_nodes(:public_casebook_section_1)
       resource_1 = content_nodes(:public_casebook_section_1_1)
-#  
+
       visit casebook_path casebook
       assert_content casebook.title
 
       click_link section_1.title
-#
+
       click_link resource_1.resource.name_abbreviation
       assert_content resource_1.resource.title
       assert_content resource_1.resource.content
@@ -121,6 +121,16 @@ class CasebookSystemTest < ApplicationSystemTestCase
 
       assert_content casebook.title
       assert_content "This casebook has unpublished changes."
+    end
+
+    scenario "double clicking on action buttons", js: true do
+      casebook = content_nodes(:public_casebook)
+      assert_count user.casebooks.count
+
+      binding.pry
+
+      visit casebook_path casebook
+      click_button 'Clone'
     end
   end
 end
