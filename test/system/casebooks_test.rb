@@ -125,12 +125,15 @@ class CasebookSystemTest < ApplicationSystemTestCase
 
     scenario "double clicking on action buttons", js: true do
       casebook = content_nodes(:public_casebook)
-      assert_count user.casebooks.count
-
-      binding.pry
+      assert_equal @user.casebooks.count, 5
 
       visit casebook_path casebook
       click_button 'Clone'
+      click_button 'Clone'
+
+      sleep 1
+
+      assert_equal 6, @user.casebooks.count
     end
   end
 end
