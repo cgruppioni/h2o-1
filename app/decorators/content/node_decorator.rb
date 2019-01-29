@@ -247,10 +247,6 @@ class Content::NodeDecorator < Draper::Decorator
     link_to(I18n.t('content.actions.cancel'), '', role: "button", class: 'action one-line cancel')
   end
 
-  def cancel_resource
-    link_to(I18n.t("content.actions.cancel"), edit_resource_path(casebook, resource), role: "button", class: "action one-line cancel")
-  end
-
   #############
   ## Section
 
