@@ -108,8 +108,10 @@ class Content::NodeDecorator < Draper::Decorator
       edit_draft +
       clone_casebook +
       export_casebook
-    else
+    elsif current_user.present?
       clone_casebook +
+      export_casebook
+    else
       export_casebook
     end
   end
@@ -119,8 +121,10 @@ class Content::NodeDecorator < Draper::Decorator
       create_draft +
       clone_casebook +
       export_casebook
-    else
+    elsif current_user.present?
       clone_casebook +
+      export_casebook
+    else
       export_casebook
     end
   end
@@ -130,8 +134,10 @@ class Content::NodeDecorator < Draper::Decorator
       revise_draft_section +
       clone_casebook +
       export_section
-    else
+    elsif current_user.present?
       clone_casebook +
+      export_section
+    else
       export_section
     end
   end
@@ -141,8 +147,10 @@ class Content::NodeDecorator < Draper::Decorator
       create_section_draft +
       clone_section +
       export_section
-    else
+    elsif current_user.present?
       clone_casebook +
+      export_section
+    else
       export_section
     end
   end
@@ -152,8 +160,10 @@ class Content::NodeDecorator < Draper::Decorator
       annotate_resource_draft +
       clone_casebook +
       export_resource
-    else
+    elsif current_user.present?
       clone_casebook +
+      export_resource
+    else
       export_resource
     end
   end
@@ -163,8 +173,10 @@ class Content::NodeDecorator < Draper::Decorator
       create_draft +
       clone_resource +
       export_resource
-    else
+    elsif current_user.present?
       clone_casebook +
+      export_resource
+    else
       export_resource
     end
   end
