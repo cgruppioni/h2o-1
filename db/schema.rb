@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20180803140805) do
   end
 
   create_table "case_requests", id: :serial, force: :cascade do |t|
-    t.string "full_name", limit: 500, null: false
+    t.string "name", limit: 500, null: false
     t.date "decision_date", null: false
     t.string "author", limit: 150, null: false
     t.integer "case_jurisdiction_id"
@@ -95,8 +95,8 @@ ActiveRecord::Schema.define(version: 20180803140805) do
 
   create_table "cases", id: :serial, force: :cascade do |t|
     t.boolean "current_opinion", default: true
-    t.string "short_name", limit: 150, null: false
-    t.string "full_name"
+    t.string "name_abbreviation", limit: 150, null: false
+    t.string "name"
     t.date "decision_date"
     t.string "author", limit: 150
     t.integer "case_jurisdiction_id"
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 20180803140805) do
     t.index ["current_opinion"], name: "index_cases_on_current_opinion"
     t.index ["decision_date"], name: "index_cases_on_decision_date"
     t.index ["public"], name: "index_cases_on_public"
-    t.index ["short_name"], name: "index_cases_on_short_name"
+    t.index ["name_abbreviation"], name: "index_cases_on_name_abbreviation"
     t.index ["updated_at"], name: "index_cases_on_updated_at"
   end
 

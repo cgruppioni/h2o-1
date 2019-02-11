@@ -36,7 +36,7 @@ class AutoClone < ActiveRecord::Migration
       end
     end
 
-    case_results = conxn.select_rows("SELECT pi.id, pi.name, pi.description, m.short_name FROM playlist_items pi JOIN cases m ON m.id = pi.actual_object_id WHERE pi.actual_object_type = 'Case' AND (pi.name != m.short_name OR COALESCE(pi.description, '') != '')")
+    case_results = conxn.select_rows("SELECT pi.id, pi.name, pi.description, m.name_abbreviation FROM playlist_items pi JOIN cases m ON m.id = pi.actual_object_id WHERE pi.actual_object_type = 'Case' AND (pi.name != m.name_abbreviation OR COALESCE(pi.description, '') != '')")
     PlaylistItem.where(id: case_results.flatten).find_in_batches do |set|
       set.each do |playlist_item|
         playlist_item.update_columns({ :notes => playlist_item.description })

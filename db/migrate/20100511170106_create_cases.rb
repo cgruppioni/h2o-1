@@ -4,8 +4,8 @@ class CreateCases < ActiveRecord::Migration
   def self.up
     create_table :cases do |t|
       t.boolean   :current_opinion,   :default => true
-      t.string    :short_name,        :limit => 150,  :null => false
-      t.string    :full_name,         :limit => 500,  :null => false
+      t.string    :name_abbreviation,        :limit => 150,  :null => false
+      t.string    :name,         :limit => 500,  :null => false
       t.date      :decision_date
       t.string    :author,            :limit => 150
       t.references :case_jurisdiction
@@ -25,7 +25,7 @@ class CreateCases < ActiveRecord::Migration
       t.timestamps
     end
 
-    [:current_opinion,:short_name, :full_name, :decision_date, :author, :case_jurisdiction_id, :updated_at, :created_at].each do |col|
+    [:current_opinion,:name_abbreviation, :name, :decision_date, :author, :case_jurisdiction_id, :updated_at, :created_at].each do |col|
       add_index :cases, col
     end
 

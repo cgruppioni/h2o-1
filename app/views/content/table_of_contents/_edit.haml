@@ -11,7 +11,7 @@
       %a.listing.resource{href: annotate_resource_path(content.casebook, content), draggable: true, data: {ordinals: content.ordinal_string, editable: editable}}
         .section-number= content.ordinal_string
         - if content.resource.is_a? Case
-          .section-title= content.resource.short_name
+          .section-title= content.resource.name_abbreviation
           .resource-case= content.resource.primary_case_citation
           .resource-date= content.resource.try(:date_year) || t('content.resource.date.not-applicable')
           .resource-type= t 'content.resource.type.case'

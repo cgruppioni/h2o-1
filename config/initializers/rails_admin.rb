@@ -198,14 +198,14 @@ RailsAdmin.config do |config|
 
   config.model 'Case' do
     list do
-      field :short_name
+      field :name_abbreviation
       field :public
       field :created_at
     end
     edit do
       field :public
-      field :short_name
-      field :full_name
+      field :name_abbreviation
+      field :name
       field :decision_date
       field :case_jurisdiction { nested_form false }
       field :case_citations
