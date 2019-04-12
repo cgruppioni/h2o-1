@@ -1,4 +1,5 @@
 import Vue from "vue/dist/vue.esm";
+import VueRouter from 'vue-router';
 Vue.config.productionTip = process.env.NODE_ENV == "development";
 
 import store from "../store/index";
