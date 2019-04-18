@@ -2,8 +2,7 @@
                 xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
                 xmlns:ext="http://exslt.org/common"
                 version="1.0"
-                exclude-result-prefixes="ext"
-                extension-element-prefixes="func">
+                exclude-result-prefixes="ext">
 
   <xsl:template match="resource-body">
     <xsl:apply-templates />

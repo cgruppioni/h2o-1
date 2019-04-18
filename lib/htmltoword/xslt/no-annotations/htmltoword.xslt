@@ -6,10 +6,8 @@
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
                 xmlns:ext="http://www.xmllab.net/wordml2html/ext"
                 xmlns:java="http://xml.apache.org/xalan/java"
-                xmlns:func="http://exslt.org/functions"
                 version="1.0"
-                exclude-result-prefixes="java msxsl ext w o v WX aml w10"
-                extension-element-prefixes="func">
+                exclude-result-prefixes="java msxsl ext w o v w10">
   <xsl:import href="./base.xslt"/>
   <!--Extra templates and customizations-->
   <xsl:include href="./extras.xslt"/>

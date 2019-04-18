@@ -8,7 +8,7 @@
                 xmlns:java="http://xml.apache.org/xalan/java"
                 xmlns:func="http://exslt.org/functions"
                 version="1.0"
-                exclude-result-prefixes="java msxsl ext w o v WX aml w10"
+                exclude-result-prefixes="java msxsl ext w o v w10"
                 extension-element-prefixes="func">
 
   <!-- support function to return substring-before or everything -->

@@ -1,8 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:func="http://exslt.org/functions"
                 version="1.0"
-                exclude-result-prefixes="java msxsl ext w o v WX aml w10"
-                extension-element-prefixes="func">
+                exclude-result-prefixes="java msxsl ext w o v w10">
   <xsl:output method="html" encoding="utf-8" omit-xml-declaration="yes" indent="yes"/>
 
   <xsl:template match="/">
