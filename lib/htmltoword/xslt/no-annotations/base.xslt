@@ -5,7 +5,6 @@
                 xmlns:WX="http://schemas.microsoft.com/office/word/2003/auxHint"
                 xmlns:aml="http://schemas.microsoft.com/aml/2001/core"
                 xmlns:w10="urn:schemas-microsoft-com:office:word"
-                xmlns:pkg="http://schemas.microsoft.com/office/2006/xmlPackage"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
                 xmlns:ext="http://www.xmllab.net/wordml2html/ext"
                 xmlns:java="http://xml.apache.org/xalan/java"
@@ -119,9 +118,10 @@
     </w:p>
   </xsl:template>
 
-    <xsl:template match="center">
-      <xsl:apply-templates />
-    </xsl:template>
+  <xsl:template match="center">
+    <xsl:apply-templates />
+  </xsl:template>
+
 
 
   <!-- TODO: make this prettier. Headings shouldn't enter in template from L51 -->

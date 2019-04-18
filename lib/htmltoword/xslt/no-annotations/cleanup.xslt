@@ -1,7 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:str="http://exslt.org/strings"
                 xmlns:func="http://exslt.org/functions"
-                xmlns:fn="http://www.w3.org/2005/xpath-functions"
                 version="1.0"
                 exclude-result-prefixes="java msxsl ext w o v WX aml w10"
                 extension-element-prefixes="func">
