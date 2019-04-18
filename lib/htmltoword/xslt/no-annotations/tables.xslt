@@ -2,8 +2,6 @@
                 xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
                 xmlns:o="urn:schemas-microsoft-com:office:office"
                 xmlns:v="urn:schemas-microsoft-com:vml"
-                xmlns:WX="http://schemas.microsoft.com/office/word/2003/auxHint"
-                xmlns:aml="http://schemas.microsoft.com/aml/2001/core"
                 xmlns:w10="urn:schemas-microsoft-com:office:word"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
                 xmlns:ext="http://www.xmllab.net/wordml2html/ext"

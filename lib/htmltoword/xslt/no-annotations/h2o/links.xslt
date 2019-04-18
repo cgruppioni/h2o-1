@@ -3,8 +3,6 @@
                 xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
                 xmlns:o="urn:schemas-microsoft-com:office:office"
                 xmlns:v="urn:schemas-microsoft-com:vml"
-                xmlns:WX="http://schemas.microsoft.com/office/word/2003/auxHint"
-                xmlns:aml="http://schemas.microsoft.com/aml/2001/core"
                 xmlns:w10="urn:schemas-microsoft-com:office:word"
                 xmlns:msxsl="urn:schemas-microsoft-com:xslt"
                 xmlns:ext="http://www.xmllab.net/wordml2html/ext"
@@ -18,6 +16,7 @@
     <w:hyperlink>
       <xsl:attribute name="r:id">rId<xsl:value-of select="count(preceding::a[starts-with(@href, 'http://') or starts-with(@href, 'https://')]) + 8" /></xsl:attribute>
       <w:r>
+        <xsl:comment>*** IN LINK ***</xsl:comment>
         <w:rPr>
           <w:rStyle w:val="ResourceLink"/>
           <w:color w:val="000080"/>

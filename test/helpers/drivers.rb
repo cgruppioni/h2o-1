@@ -4,7 +4,7 @@ module H2o::Test::Helpers::Drivers
     Capybara.save_path = Rails.root.join 'tmp/screenshots'
 
     if ENV['DOCKERIZED'].present?
-      Capybara.register_driver :selenium_chrome_headless do |app|
+      Capybara.register_driver :selenium_chrome_headlesslper do |app|
         Capybara::Selenium::Driver.load_selenium
         browser_options = ::Selenium::WebDriver::Chrome::Options.new
         browser_options.args << '--headless'
@@ -25,6 +25,7 @@ module H2o::Test::Helpers::Drivers
       end
     end
     base.setup do
+      download_path
       if metadata[:js]
         javascript_driver.use
       else
@@ -32,4 +33,10 @@ module H2o::Test::Helpers::Drivers
       end
     end
   end
+
+  def download_path
+    # path
+  end
 end
+
+
