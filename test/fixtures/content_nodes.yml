@@ -12,6 +12,13 @@ public_casebook_section_1:
   headnote: <p>What is a corporation?</p>
   ordinals: [1]
 
+griswold_resource:
+  title: Griswold v. Connecticut
+  casebook: public_casebook
+  resource: case_8135
+  resource_type: Case
+  ordinals: [3]
+
 public_casebook_section_1_1:
   casebook: public_casebook
   headnote: <p>This is the first resource in the casebook.</p>
