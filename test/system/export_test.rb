@@ -26,9 +26,11 @@ class ExportSystemTest < ApplicationSystemTestCase
   end
 
   scenario 'exporting a casebook to .docx', js:true do
+    skip
     export_test casebook_path(content_nodes(:public_casebook)), 'Word', 'test_export_casebook.docx'
   end
   scenario 'exporting a section to .docx', js:true do
+    skip
     export_test  section_path(content_nodes(:public_casebook), content_nodes(:public_casebook_section_1)), 'Word', 'test_export_section.docx'
   end
   scenario 'exporting a section to .docx', js:true do
