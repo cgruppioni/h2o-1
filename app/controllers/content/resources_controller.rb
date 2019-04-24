@@ -49,6 +49,25 @@ class Content::ResourcesController < Content::NodeController
     html = render_to_string(layout: 'export', include_annotations: @include_annotations)
     file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
 
+    doc = Nokogiri::HTML html
+    asides = doc.xpath("//aside")
+    # just_a = doc.xpath("//aside//a")
+    # asides.each do |aside|
+    # end
+
+    # first = asides.first
+    # first.xpath("//a")
+
+    # h1  = @doc.at_css "h1"
+    # div = @doc.at_css "div"
+    # h1.parent = div
+
+    asides.each do |aside|
+      aside.children[0].parent = aside.children[1]
+    end
+
+    binding.pry
+
     #Htmltoword doesn't let you switch xslt. So we need to manually do it.
     if @include_annotations
       Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/with-annotations'
