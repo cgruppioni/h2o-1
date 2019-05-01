@@ -9,6 +9,8 @@ const server = http.createServer((req, res) => {
 })
 
 server.listen(port, hostname, () => {
+  // call vue here? how to pull logic?
+
   console.log(`Server running at http://${hostname}:${port}/`);
 })
 
