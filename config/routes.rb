@@ -7,6 +7,9 @@ H2o::Application.routes.draw do
 
   root 'base#landing'
 
+
+  get 'curl_example' => 'base#curl_get_example'
+
   resources :bulk_uploads, only: [:show, :new, :create]
   resources :case_courts, only: [:new, :create]
   resources :password_resets, only: [:new, :create, :edit, :update]
@@ -15,8 +18,6 @@ H2o::Application.routes.draw do
   get 'log_out' => 'user_sessions#destroy', as: :log_out
   get '/dropbox_session' => 'dropbox_sessions#create', as: :dropbox_sessions
   get '/p/:id' => 'pages#show'
-
-  get 'all_materials' => 'base#search', as: :search_all
 
   resources :users do
     member do

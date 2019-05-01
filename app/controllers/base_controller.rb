@@ -17,4 +17,12 @@ class BaseController < ApplicationController
   def layout_switch
     return false if request.xhr?
   end
+
+  def curl_get_example
+    url = URI('http://127.0.0.1:3000/')
+    response = Net::HTTP.get(url)
+
+    render plain: response
+    # render plain: 'Thanks for sending a GET request with cURL!'
+  end
 end
