@@ -19,8 +19,11 @@ class BaseController < ApplicationController
   end
 
   def curl_get_example
+    kase = Case.last
+    content = {content: kase.content, id: kase.id}
+
     url = URI('http://127.0.0.1:3000/')
-    response = Net::HTTP.get(url)
+    response = Net::HTTP.post_form(url, 'q' => 'case data')
 
     render plain: response
     # render plain: 'Thanks for sending a GET request with cURL!'
