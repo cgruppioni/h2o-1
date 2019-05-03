@@ -25,7 +25,6 @@ class BaseController < ApplicationController
     content = {content: kase.content, id: kase.id}
 
     conn = Faraday.new(:url => 'http://127.0.0.1:3000/') do |faraday|
-      # faraday.request  :url_encoded   # form-encode POST params
       faraday.response :logger   # log requests to $stdout
       faraday.adapter  Faraday.default_adapter 
     end
@@ -33,6 +32,5 @@ class BaseController < ApplicationController
     response = conn.post '/', { :case => content}.to_json
 
     render plain: response.body
-    # render plain: response.inspect
   end
 end
