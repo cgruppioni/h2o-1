@@ -14,23 +14,31 @@ const server = http.createServer((request, response) => {
 
   let body = [];
 
+  // console.log(method);
+  // console.log(headers);
+  // console.log(request);
+
   request.on('error', (err) => {
+    console.log('error');
     console.error(err.stack);
   }).on('data', (chunk) => {
+    console.log("data");
     body.push(chunk);
   }).on('end', () => {
+    console.log('end');
     body = Buffer.concat(body).toString();
+    console.log(body);
   });
-
-  console.log('01983019283201938');
 
   response.statusCode = 200;
   response.setHeader('Content-Type', 'text/plain');
   // response.end(body);
-  response.end('casey');
+  // response.end(request);
+  response.end('xi');
 })
 
 server.listen(port, hostname, () => {
+  console.log('here');
   // call vue here? how to pull logic?
   console.log(`Server running at http://${hostname}:${port}/`);
 })

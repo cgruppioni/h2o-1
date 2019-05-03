@@ -17,7 +17,7 @@ gem 'bcrypt'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cancancan'
 gem 'capapi', git: 'https://github.com/leppert/capapi-ruby.git'
-gem 'ckeditor'
+gem 'ckeditor', '4.2.4'
 gem 'coveralls', require: false
 gem 'daemons', '1.0.10'
 gem 'deep_cloneable'

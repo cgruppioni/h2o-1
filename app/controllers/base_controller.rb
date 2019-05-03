@@ -1,3 +1,5 @@
+require 'faraday'
+
 class BaseController < ApplicationController
   caches_page :index, :if => Proc.new { |c| c.instance_variable_get('@page_cache') }
 
@@ -22,10 +24,15 @@ class BaseController < ApplicationController
     kase = Case.last
     content = {content: kase.content, id: kase.id}
 
-    url = URI('http://127.0.0.1:3000/')
-    response = Net::HTTP.post_form(url, 'q' => 'case data')
+    conn = Faraday.new(:url => 'http://127.0.0.1:3000/') do |faraday|
+      faraday.request  :url_encoded   # form-encode POST params
+      faraday.response :logger   # log requests to $stdout
+      faraday.adapter  Faraday.default_adapter 
+    end
 
-    render plain: response
-    # render plain: 'Thanks for sending a GET request with cURL!'
+    response = conn.post '/', { :case => content}
+
+    render plain: response.body
+    # render plain: response.inspect
   end
 end
