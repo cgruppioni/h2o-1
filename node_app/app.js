@@ -27,7 +27,8 @@ const server = http.createServer((request, response) => {
   }).on('end', () => {
     console.log('end');
     body = Buffer.concat(body).toString();
-    console.log(body);
+    content = JSON.stringify(JSON.parse(body).case.content);
+    console.log(content);
   });
 
   response.statusCode = 200;
