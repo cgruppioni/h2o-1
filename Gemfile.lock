@@ -335,6 +335,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
+    paru (0.3.2.0)
     pg (0.21.0)
     poltergeist (1.18.0)
       capybara (>= 2.1, < 4)
@@ -578,6 +579,7 @@ DEPENDENCIES
   nilify_blanks
   nokogiri (~> 1.6)
   paperclip (~> 5.2.0)
+  paru
   pg (~> 0.21)
   poltergeist
   pretty-diffs

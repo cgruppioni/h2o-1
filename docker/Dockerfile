@@ -54,3 +54,8 @@ RUN yarn install --frozen-lockfile
 RUN apt-get update \
     && apt-get install -y nano \
     && apt-get install -y wdiff
+
+# Latest version of Pandoc, for export experimenting
+RUN wget https://github.com/jgm/pandoc/releases/download/2.7.2/pandoc-2.7.2-1-amd64.deb \
+    && dpkg -i pandoc-2.7.2-1-amd64.deb \
+    && rm pandoc-2.7.2-1-amd64.deb

@@ -64,6 +64,7 @@ gem 'will_paginate', git: 'https://github.com/asurin/will_paginate.git', ref:'9e
 gem 'htmltoword', require: true
 gem 'methadone', require: false
 gem 'wkhtmltopdf-binary', require: false
+gem 'paru', require: true
 
 group :development do
   gem 'annotate'
