@@ -64,12 +64,11 @@ class Content::CasebooksController < Content::NodeController
     @decorated_content = @casebook.decorate(context: {action_name: action_name, casebook: @casebook, type: 'casebook'})
     @include_annotations = (params["annotations"] == "true")
 
-    html = render_to_string(layout: 'export', include_annotations: @include_annotations)
-
-    html.gsub! /\\/, '\\\\\\'
     file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
 
     if H2o::Application.config.pandoc_export
+      html = render_to_string(action: 'export_pandoc', layout: 'export', include_annotations: @include_annotations)
+      html.gsub! /\\/, '\\\\\\'
       html = HTMLHelpers.prep_for_pandoc(Nokogiri::HTML(html, nil, 'UTF-8'))
       Paru::Pandoc.new do
           from "html"
@@ -78,6 +77,8 @@ class Content::CasebooksController < Content::NodeController
           output file_path
       end.convert html.to_s
     else
+      html = render_to_string(layout: 'export', include_annotations: @include_annotations)
+      html.gsub! /\\/, '\\\\\\'
       #Htmltoword doesn't let you switch xslt. So we need to manually do it.
       if @include_annotations
         Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/with-annotations'
