@@ -1,5 +1,6 @@
 require 'net/http'
 require 'uri'
+require "paru/pandoc"
 
 class Content::CasebooksController < Content::NodeController
   before_action :prevent_page_caching, only: [:export]
@@ -68,14 +69,24 @@ class Content::CasebooksController < Content::NodeController
     html.gsub! /\\/, '\\\\\\'
     file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
 
-    #Htmltoword doesn't let you switch xslt. So we need to manually do it.
-    if @include_annotations
-      Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/with-annotations'
+    if H2o::Application.config.pandoc_export
+      html = HTMLHelpers.prep_for_pandoc(Nokogiri::HTML(html, nil, 'UTF-8'))
+      Paru::Pandoc.new do
+          from "html"
+          to "docx"
+          reference_doc "lib/pandoc/reference.docx"
+          output file_path
+      end.convert html.to_s
     else
-      Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/no-annotations'
+      #Htmltoword doesn't let you switch xslt. So we need to manually do it.
+      if @include_annotations
+        Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/with-annotations'
+      else
+        Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/no-annotations'
+      end
+      Htmltoword::Document.create_and_save(html, file_path)
     end
 
-    Htmltoword::Document.create_and_save(html, file_path)
     send_file file_path, type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', filename: export_filename('docx', @include_annotations), disposition: :inline
   end
 

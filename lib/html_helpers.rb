@@ -47,5 +47,9 @@ module HTMLHelpers
        method(:get_body_nodes_without_whitespace_text),
        method(:filter_empty_nodes!)].reduce(html) { |memo, fn| fn.call(memo) }
     end
+
+    def prep_for_pandoc nodes
+      nodes
+    end
   end
 end

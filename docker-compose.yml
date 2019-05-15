@@ -15,6 +15,7 @@ services:
     - DOCKERIZED=true
     - DB_HOSTNAME=db
     - DB_USERNAME=postgres
+    - RAILS_PANDOC_EXPORT=true
     extra_hosts:
     - "h2o-dev.local:127.0.0.1"
     volumes:
