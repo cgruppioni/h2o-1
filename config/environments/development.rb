@@ -71,4 +71,5 @@ H2o::Application.configure do
   end
 
   config.exception_handler['dev'] = ENV['RAILS_RENDER_ERROR_PAGES']
+  config.ssr_export_feature_flag = ENV['SSR_EXPORT_FEATURE_FLAG']
 end

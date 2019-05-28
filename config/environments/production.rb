@@ -144,4 +144,6 @@ H2o::Application.configure do
 
   config.admin_emails = (ENV["ADMIN_EMAIL"] || '').split(' ')
   config.professor_verifier_email = ENV["PROFESSOR_VERIFIER_EMAIL"]
+
+  config.ssr_export_feature_flag = ENV['SSR_EXPORT_FEATURE_FLAG']
 end

@@ -63,7 +63,11 @@ class Content::CasebooksController < Content::NodeController
     @decorated_content = @casebook.decorate(context: {action_name: action_name, casebook: @casebook, type: 'casebook'})
     @include_annotations = (params["annotations"] == "true")
 
-    html = render_to_string(layout: 'export', include_annotations: @include_annotations)
+    if H2o::Application.config.ssr_export_feature_flag == 'true'
+      html = Vue::SSR.render(@resource.resource.content, @resource.annotations)
+    else 
+      html = render_to_string(layout: 'export', include_annotations: @include_annotations)
+    end
 
     html.gsub! /\\/, '\\\\\\'
     file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
