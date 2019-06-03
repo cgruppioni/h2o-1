@@ -145,7 +145,7 @@ content_annotation_720532:
   kind: replace
   content: replaced text
   global_start_offset: 374
-  global_end_offset: 394
+  global_end_offset: 415
   
 content_annotation_720531:
   resource: resource_with_full_case
