@@ -11,6 +11,7 @@ module Differ
 
     def calculate_ranges dmp_diffs
       dmp_diffs.reduce([]) do |diffs, diff|
+        binding.pry
         start_before = diffs.last&.[](0) == :insert ?
                          diffs.last[2].min :
                          diffs.last&.[](2)&.max || 0

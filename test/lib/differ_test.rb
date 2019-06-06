@@ -91,4 +91,14 @@ class DifferTest < ActiveSupport::TestCase
       assert_equal -1..-1, Differ.adjust_range(diffs, 7..11)
     end
   end
+
+  describe Differ, :calculate_ranges do
+    it "should not add length of an :insert immediately preceding a diff when calculating the before range" do
+      dmp_diffs = [[:equal, "foo "], [:delete, "bar"], [:insert, "BAR"], [:equal, " buzz"]]
+      diffs = Differ.calculate_ranges(dmp_diffs)
+
+      binding.pry
+
+    end
+  end
 end
