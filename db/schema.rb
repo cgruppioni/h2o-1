@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_125852) do
     t.jsonb "opinions"
     t.jsonb "citations"
     t.string "docket_number", limit: 20000
-    t.integer "annotations_count", default: 0
+    t.integer "annotations_count", default: 0, null: false
     t.index ["case_court_id"], name: "index_cases_on_case_court_id"
     t.index ["citations"], name: "index_cases_on_citations", using: :gin
     t.index ["created_at"], name: "index_cases_on_created_at"
@@ -198,7 +198,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_125852) do
     t.boolean "created_via_import", default: false, null: false
   end
 
-  create_table "delayed_jobs", id: :serial, force: :cascade do |t|
+  create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0
     t.integer "attempts", default: 0
     t.text "handler"
@@ -206,10 +206,10 @@ ActiveRecord::Schema.define(version: 2019_06_05_125852) do
     t.datetime "run_at"
     t.datetime "locked_at"
     t.datetime "failed_at"
-    t.string "locked_by", limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "queue", limit: 255
+    t.string "locked_by"
+    t.string "queue"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
@@ -408,7 +408,7 @@ ActiveRecord::Schema.define(version: 2019_06_05_125852) do
     t.boolean "enable_feedback", default: true, null: false
     t.boolean "enable_discussions", default: false, null: false
     t.boolean "enable_responses", default: false, null: false
-    t.integer "annotations_count", default: 0
+    t.integer "annotations_count", default: 0, null: false
     t.index ["created_at"], name: "index_text_blocks_on_created_at"
     t.index ["name"], name: "index_text_blocks_on_name"
     t.index ["updated_at"], name: "index_text_blocks_on_updated_at"
