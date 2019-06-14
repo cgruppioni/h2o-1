@@ -6,6 +6,6 @@ $(document).ready(e => {
     CKEDITOR.instances[name].destroy(true);
   }
   for (let el of document.querySelectorAll('.ckeditor')) {
-    CKEDITOR.replace(el.id, {toolbar: 'mini'});
+    CKEDITOR.replace(el.id, {toolbar: 'full'});
   }
 });
