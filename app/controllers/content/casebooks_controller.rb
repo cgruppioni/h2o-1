@@ -61,7 +61,9 @@ class Content::CasebooksController < Content::NodeController
   def export
     @include_annotations = (params["annotations"] == "true")
 
-    html = render_to_string(layout: 'export', include_annotations: @include_annotations)
+    # html = render_to_string(layout: 'export', include_annotations: @include_annotations)
+
+    html = Vue::SSR.render(self.content)
 
     html.gsub! /\\/, '\\\\\\'
     file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
