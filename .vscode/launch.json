@@ -5,18 +5,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Start Rails server",
-      "type": "Ruby",
-      "request": "launch",
-      "cwd": "${workspaceRoot}",
-      "program": "${workspaceRoot}/bin/rails",
-      "args": [
-        "server",
-        "-p",
-        "3000"
-      ]
-    },
-    {
       "name": "Debug server",
       "type": "Ruby",
       "request": "launch",
@@ -35,47 +23,26 @@
       }
     },
     {
+      "type": "chrome",
+      "request": "launch",
+      "name": "vuejs: chrome",
+      "url": "http://localhost:8000",
+      "webRoot": "${workspaceFolder}/app/webpacker",
+      "breakOnLoad": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/*",
+        "webpack:///src/*": "${webRoot}/*",
+        "webpack:///*": "*",
+        "webpack:///./~/*": "${webRoot}/node_modules/*"
+      }
+    },
+    {
       "name": "Launch Chrome against localhost",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
     },
-    {
-      "name": "Test::Unit - open test file",
-      "type": "Ruby",
-      "request": "launch",
-      "cwd": "${workspaceRoot}",
-      "program": "${file}",
-      "includes": [
-        "test",
-        "lib"
-      ]
-    },
-    {
-      "name": "Test::Unit - single selected test",
-      "type": "Ruby",
-      "request": "launch",
-      "cwd": "${workspaceRoot}",
-      "program": "${file}",
-      "includes": [
-        "test",
-        "lib"
-      ],
-      "args": [
-        "-n",
-        "${selectedText}"
-      ]
-    },
-    {
-      "name": "Debug Attach",
-      "type": "Ruby",
-      "request": "attach",
-      "cwd": "${workspaceRoot}",
-      "remoteWorkspaceRoot": "${workspaceRoot}",
-      "remoteHost": "127.0.0.1",
-      "remotePort": "1234"
-    }
   ]
 }
 
