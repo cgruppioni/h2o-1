@@ -66,6 +66,10 @@ gem 'htmltoword', require: true
 gem 'methadone', require: false
 gem 'wkhtmltopdf-binary', require: false
 
+# vscode gems
+gem 'rubocop'
+gem 'ruby-debug-ide'
+
 group :development do
   gem 'annotate'
   gem 'sunspot_solr'
