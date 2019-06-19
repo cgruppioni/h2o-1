@@ -69,6 +69,8 @@ gem 'wkhtmltopdf-binary', require: false
 # vscode gems
 gem 'rubocop'
 gem 'ruby-debug-ide'
+gem 'debase'
+gem 'solargraph'
 
 group :development do
   gem 'annotate'
