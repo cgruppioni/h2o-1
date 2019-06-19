@@ -62,6 +62,8 @@ H2o::Application.configure do
   config.admin_emails = ['cgruppioni@law.harvard.edu']
   config.professor_verifier_email = "cgruppioni@law.harvard.edu"
 
+  config.public_file_server.enabled = true
+
   if ENV['DOCKERIZED'].present?
     # Web Console launches an interactive debugging console in your browser.
     # If running in Docker, requests don't come from localhost, so we have to
