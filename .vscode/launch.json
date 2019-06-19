@@ -17,7 +17,7 @@
       ]
     },
     {
-      "name": "Debug Rails server",
+      "name": "Debug server",
       "type": "Ruby",
       "request": "launch",
       "cwd": "${workspaceRoot}",
@@ -29,19 +29,16 @@
         "server",
         "-p",
         "3000"
-      ]
-    },
-    {
-      "name": "Debug Local File",
-      "type": "Ruby",
-      "request": "launch",
-      "program": "${workspaceRoot}/main.rb"
+      ],
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/*"
+      }
     },
     {
       "name": "Launch Chrome against localhost",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:8080",
+      "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
     },
     {
@@ -82,5 +79,6 @@
   ]
 }
 
-// https: //github.com/rubyide/vscode-ruby/wiki/
-// https: //code.visualstudio.com/docs/editor/debugging#_launch-configurations
+// https://github.com/rubyide/vscode-ruby/wiki/
+// https://code.visualstudio.com/docs/editor/debugging#_launch-configurations
+// https://github.com/microsoft/vscode-recipes/tree/master/debugging-Ruby-on-Rails
