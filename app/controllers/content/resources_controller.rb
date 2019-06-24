@@ -1,5 +1,6 @@
 require 'net/http'
 require 'uri'
+require 'paru/pandoc'
 
 class Content::ResourcesController < Content::NodeController
   before_action :prevent_page_caching, only: [:export]
@@ -44,23 +45,32 @@ class Content::ResourcesController < Content::NodeController
     @resource = Content::Resource.find params[:resource_id]
     @include_annotations = (params["annotations"] == "true")
 
-    # html = render_to_string(layout: 'export', include_annotations: @include_annotations)
-
-    html = Vue::SSR.render(@resource.resource.content, @resource.annotations)
-
-    binding.pry
-
     file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
+    html = render_to_string(action: 'export_pandoc', layout: 'export', include_annotations: @include_annotations)
+    # html = Vue::SSR.render(@resource.resource.content, @resource.annotations)
+    html.gsub! /\\/, '\\\\\\'
+    html = HTMLHelpers.prep_for_pandoc(Nokogiri::HTML(html, nil, 'UTF-8'))
+    puts html
+    Paru::Pandoc.new do
+        from "html"
+        to "docx"
+        reference_doc "lib/pandoc/reference.docx"
+        output file_path
+    end.convert html.to_s
 
-    #Htmltoword doesn't let you switch xslt. So we need to manually do it.
-    if @include_annotations
-      Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/with-annotations'
-    else
-      Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/no-annotations'
-    end
-
-    Htmltoword::Document.create_and_save(html, file_path)
     send_file file_path, type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', filename: export_filename('docx', @include_annotations), disposition: :inline
+
+    # html = render_to_string(layout: 'export', include_annotations: @include_annotations)
+    # file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
+    # #Htmltoword doesn't let you switch xslt. So we need to manually do it.
+    # if @include_annotations
+    #   Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/with-annotations'
+    # else
+    #   Htmltoword.config.default_xslt_path = Rails.root.join 'lib/htmltoword/xslt/no-annotations'
+    # end
+
+    # Htmltoword::Document.create_and_save(html, file_path)
+    # send_file file_path, type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', filename: export_filename('docx', @include_annotations), disposition: :inline
   end
 
   def update
