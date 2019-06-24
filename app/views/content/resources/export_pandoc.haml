@@ -1,0 +1,12 @@
+%div.ResourceNumber{data: {'custom-style': 'Resource Number'}}=@resource.ordinal_string
+%div.ResourceTitle{data: {'custom-style': 'Resource Title'}}=@resource.title
+- if @resource.subtitle.present?
+  %div.ResourceSubtitle{data: {'custom-style': 'Resource Subtitle'}}= @resource.subtitle
+- if @resource.headnote.present?
+  %div.ResourceHeadnote{data: {'custom-style': 'Resource Headnote'}}= @resource.headnote
+- if @resource.resource.class.in? [Case, TextBlock]
+  %div.opinion
+    - @resource.send(@include_annotations ? :annotated_paragraphs : :paragraph_nodes).each do |node|
+      = node.to_html.html_safe
+    - if @include_annotations
+      %div= @resource.footnote_annotations
