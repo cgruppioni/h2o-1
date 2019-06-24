@@ -42,10 +42,14 @@ class Content::ResourcesController < Content::NodeController
 
   def export
     @resource = Content::Resource.find params[:resource_id]
-    @decorated_content = @resource.decorate(context: {action_name: action_name, casebook: @casebook, section: @section, context_resource: @resource, type: 'resource'})
     @include_annotations = (params["annotations"] == "true")
 
-    html = render_to_string(layout: 'export', include_annotations: @include_annotations)
+    # html = render_to_string(layout: 'export', include_annotations: @include_annotations)
+
+    html = Vue::SSR.render(@resource.resource.content, @resource.annotations)
+
+    binding.pry
+
     file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
 
     #Htmltoword doesn't let you switch xslt. So we need to manually do it.
