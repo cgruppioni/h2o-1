@@ -1,6 +1,6 @@
 %div.CasebookTitle{data: {'custom-style': 'Casebook Title'}}= @casebook.title
 %div.CasebookSubtitle{data: {'custom-style': 'Casebook Subtitle'}}= @casebook.subtitle
-%div.CasebookHeadnote{data: {'custom-style': 'Casebook Headnote'}}= @casebook.formatted_headnote
+%div.CasebookHeadnote{data: {'custom-style': 'Casebook Headnote'}}= @casebook.headnote
 
 / %table-of-contents
 /   - @casebook.contents.each_with_index do |content, idx|
@@ -15,14 +15,14 @@
     - if content.subtitle.present?
       %div.SectionSubtitle{data: {'custom-style': 'Section Subtitle'}}=content.subtitle
     - if content.headnote.present?
-      %div.SectionHeadnote{data: {'custom-style': 'Section Headnote'}}= content.formatted_headnote
+      %div.SectionHeadnote{data: {'custom-style': 'Section Headnote'}}= content.headnote
   - elsif content.is_a? Content::Resource
     %div.ResourceNumber{data: {'toc-idx': idx + 1, 'custom-style': 'Resource Number'}}=content.ordinal_string
     %div.ResourceTitle{data: {'custom-style': 'Resource Title'}}=content.title
     - if content.subtitle.present?
       %div.ResourceSubtitle{data: {'custom-style': 'Resource Subtitle'}}= content.subtitle
     - if content.headnote.present?
-      %div.ResourceHeadnote{data: {'custom-style': 'Resource Headnote'}}= content.formatted_headnote
+      %div.ResourceHeadnote{data: {'custom-style': 'Resource Headnote'}}= content.headnote
     - if content.resource.class.in? [Case, TextBlock]
       %div.opinion
         - content.send(@include_annotations ? :annotated_paragraphs : :paragraph_nodes).each do |node|
