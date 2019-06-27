@@ -31,9 +31,9 @@ class ExportSystemTest < ApplicationSystemTestCase
   # scenario 'exporting a section without annotations to .docx', js: true do
   #   export_test  section_path(content_nodes(:public_casebook), content_nodes(:public_casebook_section_1)), 'Word', 'test_export_section.docx'
   # end
-  # scenario 'exporting a resource without annotations to .docx', js: true do
-  #   export_test  resource_path(content_nodes(:public_casebook), content_nodes(:public_casebook_section_1_1)), 'Word', 'test_export_resource.docx'
-  # end
+  scenario 'exporting a resource without annotations to .docx', js: true do
+    export_test  resource_path(content_nodes(:public_casebook), content_nodes(:public_casebook_section_1_1)), 'Word', 'test_export_resource.docx'
+  end
 
   # scenario 'exporting an annotated casebook to .docx without annotations', js: true do
   #   export_test casebook_path(content_nodes(:public_annotated_casebook)), 'Word', 'test_export_annotated_casebook_without_annotations.docx', true
@@ -52,6 +52,7 @@ class ExportSystemTest < ApplicationSystemTestCase
   #   export_test section_path(content_nodes(:public_annotated_casebook), content_nodes(:public_annotated_casebook_section_1)), 'Word', 'test_export_annotated_section_with_annotations.docx', true, true
   # end
   scenario 'exporting an annotated casebook resource to .docx with annotations', js: true do
+    skip
     export_test resource_path(content_nodes(:public_annotated_casebook), content_nodes(:public_annotated_casebook_section_1_1)), 'Word', 'test_export_annotated_resource_with_annotations.docx', true, true
   end
 

@@ -1,16 +1,16 @@
 module PandocHelpers
   class << self
-    def insert_metadata html
-      binding.pry
-      html.css('div')
-      html.css('div')[0]
+    def insert_metadata nodes
+     new_html =  "<div class='ResourceNumber' data-custom-style='Resource Number'>1.1</div>"
+     nodes.children[0].children[1].children[0].add_previous_sibling new_html
+     return nodes
     end
 
-    def prep_for_pandoc html
-      # html = self.insert_metadata(html)
+    def prep_for_pandoc nodes
+      nodes = self.insert_metadata(nodes)
 
       # Case Header styling
-      html.css(
+      nodes.css(
           # 'section.head-matter p',
           # 'section.head-matter h4',
           'center',
@@ -21,15 +21,15 @@ module PandocHelpers
       end
 
       # Note and Link annotations
-      html.css('span[msword-style="FootnoteReference"]').each do | s |
+      nodes.css('span[msword-style="FootnoteReference"]').each do | s |
         s.set_attribute('custom-style', 'Footnote Reference')
         s.delete('msword-style')
       end
 
       # Elision annotations
-      html.css('span.annotate.elided').each do | s |
+      nodes.css('span.annotate.elided').each do | s |
         if s['class'].include? 'head'
-          s.inner_html = '[ … ]'
+          s.inner_nodes = '[ … ]'
           s.set_attribute('custom-style', 'Elision')
         else
           s.remove
@@ -37,15 +37,15 @@ module PandocHelpers
       end
 
       # Replacement annotations
-      html.css('span.annotate.replaced').each do | s |
+      nodes.css('span.annotate.replaced').each do | s |
         s.remove
       end
-      html.css('span[msword-style="ReplacementText"]').each do | s |
+      nodes.css('span[msword-style="ReplacementText"]').each do | s |
         s.set_attribute('custom-style', 'Replacement Text')
         s.delete('msword-style')
       end
 
-      html
+      nodes
     end
   end
 end

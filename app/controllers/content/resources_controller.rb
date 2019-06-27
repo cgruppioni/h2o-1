@@ -44,12 +44,25 @@ class Content::ResourcesController < Content::NodeController
   def export
     @resource = Content::Resource.find params[:resource_id]
     @include_annotations = (params["annotations"] == "true")
-
     file_path = Rails.root.join("tmp/export-#{Time.now.utc.iso8601}-#{SecureRandom.uuid}.docx")
-    # html = render_to_string(action: 'export_pandoc', layout: 'export', include_annotations: @include_annotations)
+
+
+    original_html = render_to_string(action: 'export_pandoc', layout: 'export', include_annotations: @include_annotations)
+
     html = Vue::SSR.render(@resource.resource.content, @resource.annotations)
+
     html.gsub! /\\/, '\\\\\\'
-    html = HTMLHelpers.prep_for_pandoc(Nokogiri::HTML(html, nil, 'UTF-8'))
+
+    # nodes = HTMLUtils.parse(html)
+
+    # new_html =  "<div class='ResourceNumber' data-custom-style='Resource Number'>1.1</div>"
+    
+    # nodes.children[0].children[1].children[0]
+
+    html = PandocHelpers.prep_for_pandoc(HTMLUtils.parse(html))
+    # ^ insert here, for adding title and headnote 
+
+
     Paru::Pandoc.new do
         from "html"
         to "docx"
