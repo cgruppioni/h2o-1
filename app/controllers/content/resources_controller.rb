@@ -59,9 +59,7 @@ class Content::ResourcesController < Content::NodeController
     
     # nodes.children[0].children[1].children[0]
 
-    html = PandocHelpers.prep_for_pandoc(HTMLUtils.parse(html))
-    # ^ insert here, for adding title and headnote 
-
+    html = PandocHelpers.prep_for_pandoc(HTMLUtils.parse(html), @resource)
 
     Paru::Pandoc.new do
         from "html"
