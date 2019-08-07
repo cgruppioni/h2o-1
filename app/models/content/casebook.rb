@@ -1,7 +1,4 @@
 class Content::Casebook < Content::Node
-  include Content::Concerns::HasCollaborators
-  include Content::Concerns::HasChildren
-
   has_ancestry orphan_strategy: :adopt
 
   default_scope {where(casebook_id: nil)}
@@ -12,6 +9,9 @@ class Content::Casebook < Content::Node
   has_many :contents, -> {order :ordinals}, class_name: 'Content::Child', inverse_of: :casebook, foreign_key: :casebook_id, dependent: :delete_all
   has_many :collaborators, -> {order role: :desc, has_attribution: :desc}, class_name: 'Content::Collaborator', dependent: :destroy, inverse_of: :content, foreign_key: :content_id
   has_many :unpublished_revisions, dependent: :destroy
+
+  include Content::Concerns::HasCollaborators
+  include Content::Concerns::HasChildren
 
   after_create :clone_contents, if: -> {copy_of.present?}
 
