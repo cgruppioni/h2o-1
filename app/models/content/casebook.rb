@@ -71,7 +71,7 @@ class Content::Casebook < Content::Node
     if root_user_id.present?
       User.find(root_user_id)
     elsif self.ancestry.present?
-      User.joins(:content_collaborators).where(content_collaborators: { content_id: self.root.id, role: 'owner' }).first ## make sure this returns root
+      User.joins(:content_collaborators).where(content_collaborators: { content_id: self.root.id, role: 'owner' }).first
     end
   end
 
@@ -87,10 +87,6 @@ class Content::Casebook < Content::Node
     descendants.where(draft_mode_of_published_casebook: true).where(copy_of_id: self.id).first
   end
 
-  def building_draft?(owner, draft_mode)
-    self.owner == owner && self.public && draft_mode
-  end
-
   def resources_have_annotations?
     resources.each do |resource|
       if resource.annotations.any?
@@ -98,13 +94,5 @@ class Content::Casebook < Content::Node
       end
     end
     false
-  end
-
-  def alert_changes?(current_user)
-    if current_user.present?
-      draft.present? && (has_collaborator?(current_user.id) ||current_user.superadmin?)
-    else
-      false
-    end
   end
 end
